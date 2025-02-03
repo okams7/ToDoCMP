@@ -3,10 +3,11 @@
 kotlin = "2.1.0"
 compose = "1.7.3"
 agp = "8.8.0"
-androidx-activityCompose = "1.9.3"
-androidx-uiTest = "1.7.4"
+androidx-activityCompose = "1.10.0"
+androidx-uiTest = "1.7.7"
 androidx-lifecycle = "2.8.4"
 kotlinx-datetime = "0.6.1"
+uiTextAndroid = "1.7.7"
 
 [libraries]
 
@@ -16,6 +17,7 @@ androidx-uitest-junit4 = { module = "androidx.compose.ui:ui-test-junit4", versio
 androidx-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+androidx-ui-text-android = { group = "androidx.compose.ui", name = "ui-text-android", version.ref = "uiTextAndroid" }
 
 [plugins]
 

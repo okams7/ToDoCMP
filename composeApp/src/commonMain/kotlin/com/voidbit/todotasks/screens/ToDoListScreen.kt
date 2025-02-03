@@ -48,84 +48,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.voidbit.todotasks.data.ToDo
 import com.voidbit.todotasks.data.dummyData
-import com.voidbit.todotasks.theme.LocalThemeIsDark
 import kotlinx.datetime.LocalDate
-import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.resources.vectorResource
-import todotasks.composeapp.generated.resources.Res
-import todotasks.composeapp.generated.resources.app_name
-import todotasks.composeapp.generated.resources.ic_dark_mode
-import todotasks.composeapp.generated.resources.ic_light_mode
 
 @Composable
 fun ToDoListScreen() {
-    Scaffold(
-        topBar = {
-            MyTopAppBar()
-        },
-        content = { paddingValues ->
-            Surface(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                // Your screen content goes here
-                Box(modifier = Modifier.fillMaxSize().padding(all = 16.dp)) {
-                    Column {
-                        AddNewItemBar()
-                        Spacer(modifier = Modifier.height(16.dp))
-                        ToDoList(dummyData)
-                    }
-                }
-            }
+    Box(modifier = Modifier.fillMaxSize().padding(all = 16.dp)) {
+        Column {
+            AddNewItemBar()
+            Spacer(modifier = Modifier.height(16.dp))
+            ToDoList(dummyData)
         }
-    )
-
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MyTopAppBar() {
-    var isDark by LocalThemeIsDark.current
-    val themeIcon = remember(isDark) {
-        if (isDark) Res.drawable.ic_light_mode
-        else Res.drawable.ic_dark_mode
     }
-    TopAppBar(
-        title = {
-            Text(
-                text = stringResource(Res.string.app_name),
-                style = MaterialTheme.typography.titleLarge
-            )
-        },
-//        navigationIcon = {
-//            IconButton(onClick = { println("Menu clicked!") }) {
-//                Icon(
-//                    imageVector = Icons.Default.Menu, // Menu icon
-//                    contentDescription = "Menu"
-//                )
-//            }
-//        },
-        actions = {
-            IconButton(onClick = { isDark = !isDark }) {
-                Icon(
-                    imageVector = vectorResource(themeIcon), // Search icon
-                    contentDescription = "Search"
-                )
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        )
-    )
 }
+
+
 
 @Composable
 fun AddNewItemBar() {
@@ -253,14 +192,16 @@ fun ToDoCard(
         Box(
             modifier = Modifier.padding(),
         ) {
-            Row(horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Top) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
+            ) {
                 Checkbox(
                     checked = toDo.isCompleted,
                     modifier = Modifier.align(Alignment.Top),
-                    onCheckedChange = {  } // Update state when checkbox is clicked
+                    onCheckedChange = { } // Update state when checkbox is clicked
                 )
-                Column(modifier=Modifier.weight(1f).padding(top = 10.dp, bottom = 10.dp)) {
+                Column(modifier = Modifier.weight(1f).padding(top = 10.dp, bottom = 10.dp)) {
                     Text(
                         text = toDo.title,
                         style = MaterialTheme.typography.titleMedium
@@ -274,7 +215,7 @@ fun ToDoCard(
                     }
                 }
                 IconButton(
-                    onClick = {  } // Handle click event
+                    onClick = { } // Handle click event
                 ) {
                     Icon(
                         imageVector = Icons.Default.Star, // Use an icon from the Material Icons library
