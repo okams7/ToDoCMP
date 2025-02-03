@@ -1,6 +1,7 @@
 package com.voidbit.todotasks.screens
 
 import MyDatePicker
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,19 +21,21 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -42,8 +45,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.voidbit.todotasks.data.ToDo
 import com.voidbit.todotasks.data.dummyData
@@ -69,9 +74,10 @@ fun ToDoListScreen() {
                     .padding(paddingValues)
             ) {
                 // Your screen content goes here
-                Box(modifier = Modifier.fillMaxSize()) {
+                Box(modifier = Modifier.fillMaxSize().padding(all = 16.dp)) {
                     Column {
                         AddNewItemBar()
+                        Spacer(modifier = Modifier.height(16.dp))
                         ToDoList(dummyData)
                     }
                 }
@@ -126,19 +132,35 @@ fun AddNewItemBar() {
     var text by remember { mutableStateOf("") }
     var showDatePicker by remember { mutableStateOf(false) }
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
-    Column {
+    Column(
+        modifier = Modifier
+            .border(
+                width = 2.dp, // Border width
+                color = MaterialTheme.colorScheme.primary, // Border color
+                shape = RoundedCornerShape(20.dp)
+            )
+    ) {
         TextField(
             value = text,
             onValueChange = { text = it },
-            modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp).fillMaxWidth(),
+            modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp).fillMaxWidth(),
             placeholder = { Text("Enter a new ToDo here..") },
-            maxLines = 7,
+            maxLines = 3,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(
                 onDone = { /* Handle "Done" action */ }
+            ),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                disabledContainerColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+                cursorColor = MaterialTheme.colorScheme.primary,
             ),
 //            shape = RoundedCornerShape(20.dp),
             trailingIcon = {
@@ -154,51 +176,54 @@ fun AddNewItemBar() {
                 }
             }
         )
-    }
-
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        if (selectedDate != null) {
-            TextButton(
-                onClick = { showDatePicker = true }
-            ) {
-                Text(
-                    text = "Due Date: ${selectedDate!!}",
-                    modifier = Modifier.padding(top = 8.dp),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        } else {
-            IconButton(
-                onClick = { showDatePicker = true } // Handle click event
-            ) {
-                Icon(
-                    imageVector = Icons.Default.DateRange, // Use an icon from the Material Icons library
-                    contentDescription = "Due date", // Accessibility description
-                    modifier = Modifier.size(24.dp) // Set the size of the icon
-                )
-            }
-        }
-
-        Button(
-            onClick = { /* Handle click */ },
-            shape = RoundedCornerShape(20.dp)
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Add")
-        }
-
-        if (showDatePicker) {
-            MyDatePicker(
-                onDismissRequest = { showDatePicker = false },
-                onDateSelected = { date ->
-                    selectedDate = date
-                    showDatePicker = false
+            if (selectedDate != null) {
+                TextButton(
+                    onClick = { showDatePicker = true }
+                ) {
+                    Text(
+                        text = "Due Date: ${selectedDate!!}",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
-            )
+            } else {
+                IconButton(
+                    onClick = { showDatePicker = true } // Handle click event
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.DateRange, // Use an icon from the Material Icons library
+                        contentDescription = "Due date", // Accessibility description
+                        modifier = Modifier.size(24.dp) // Set the size of the icon
+                    )
+                }
+            }
+
+            Button(
+                onClick = { /* Handle click */ },
+                shape = RoundedCornerShape(20.dp)
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center // Center the text vertically and horizontally
+                ) {
+                    Text("Add")
+                }
+
+            }
+
+            if (showDatePicker) {
+                MyDatePicker(
+                    onDismissRequest = { showDatePicker = false },
+                    onDateSelected = { date ->
+                        selectedDate = date
+                        showDatePicker = false
+                    }
+                )
+            }
         }
     }
 }
@@ -207,7 +232,7 @@ fun AddNewItemBar() {
 fun ToDoList(itemList: List<ToDo>) {
     LazyColumn {
         items(itemList) { item ->
-            ToDoCard(modifier = Modifier.padding(start = 16.dp, end = 16.dp), item)
+            ToDoCard(modifier = Modifier, item)
         }
     }
 }
@@ -226,18 +251,35 @@ fun ToDoCard(
 
         ) {
         Box(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(),
         ) {
-            Column {
-                Text(
-                    text = toDo.title,
-                    style = MaterialTheme.typography.titleMedium
+            Row(horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top) {
+                Checkbox(
+                    checked = toDo.isCompleted,
+                    modifier = Modifier.align(Alignment.Top),
+                    onCheckedChange = {  } // Update state when checkbox is clicked
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                toDo.description?.let {
+                Column(modifier=Modifier.weight(1f).padding(top = 10.dp, bottom = 10.dp)) {
                     Text(
-                        text = it,
-                        style = MaterialTheme.typography.bodySmall
+                        text = toDo.title,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    toDo.description?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                }
+                IconButton(
+                    onClick = {  } // Handle click event
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Star, // Use an icon from the Material Icons library
+                        contentDescription = "Due date", // Accessibility description
+                        modifier = Modifier.size(24.dp) // Set the size of the icon
                     )
                 }
             }

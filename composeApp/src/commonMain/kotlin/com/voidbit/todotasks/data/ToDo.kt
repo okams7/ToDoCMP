@@ -13,7 +13,7 @@ data class ToDo(
 
 val dummyData = listOf(
     ToDo(1,"Cocking"),
-    ToDo(2,"Shopping", description = "this is a test description"),
-    ToDo(3,"Fishing", description = "what a delight!!"),
+    ToDo(2,"Shopping", description = "this is a test description dsf sdfsdf fsdf sdfsf sfsdf sdfsf sdfsdff sfsdf ffs fsdfsdf sfsfsfs dsfsf sfsff sdfsfsdf "),
+    ToDo(3,"Fishing", description = "what a delight!!", isCompleted = true),
     ToDo(4,"Sleeping")
 )
