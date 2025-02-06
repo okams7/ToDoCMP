@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
@@ -32,17 +33,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.atStartOfDayIn
-import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import kotlinx.datetime.todayAt
@@ -66,6 +63,8 @@ fun isLeapYear(year: Int): Boolean {
 
 @Composable
 fun MonthViewCalendar() {
+
+    val defaultSizeBrick = 70.dp
     // State for the current date
 //    val currentDate = LocalDate.now(TimeZone.currentSystemDefault())
     var currentDate by remember { mutableStateOf(Clock.System.todayAt(TimeZone.currentSystemDefault())) }
@@ -148,7 +147,7 @@ fun MonthViewCalendar() {
             // Create a grid for the calendar
             LazyVerticalGrid(
                 columns = GridCells.Fixed(7),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.width(400.dp)
             ) {
 
                 // Display day of the week headers
@@ -156,7 +155,7 @@ fun MonthViewCalendar() {
                     Text(
                         text = dayOfWeekNames[index],
                         modifier = Modifier
-                            .size(40.dp)
+                            .size(defaultSizeBrick)
 //                        .background(MaterialTheme.colorScheme.surfaceVariant)
                             .padding(4.dp),
                         textAlign = TextAlign.Center,
@@ -166,7 +165,7 @@ fun MonthViewCalendar() {
 
                 // Add empty cells for days before the first day of the month
                 items((firstDayOfWeek.ordinal + 1) % 7) {
-                    Box(modifier = Modifier.size(40.dp))
+                    Box(modifier = Modifier.size(defaultSizeBrick))
                 }
 
                 // Add cells for each day in the month
@@ -176,7 +175,7 @@ fun MonthViewCalendar() {
 
                     Box(
                         modifier = Modifier
-                            .size(40.dp)
+                            .size(defaultSizeBrick)
                             .clickable {
                                 selectedDate = date
                                 showAddTask = true

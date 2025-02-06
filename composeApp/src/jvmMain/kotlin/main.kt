@@ -9,11 +9,11 @@ import com.voidbit.todotasks.App
 
 fun main() = application {
     Window(
-        title = "ToDoTasks",
-        state = rememberWindowState(width = 800.dp, height = 600.dp),
+        title = "ToDoTasks", 
+        state = rememberWindowState(width = 800.dp, height = 700.dp),
         onCloseRequest = ::exitApplication,
     ) {
-        window.minimumSize = Dimension(350, 600)
+        window.minimumSize = Dimension(400, 650)
         App()
     }
 }
